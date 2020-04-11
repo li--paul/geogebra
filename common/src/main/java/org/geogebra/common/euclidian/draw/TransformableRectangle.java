@@ -183,11 +183,11 @@ public class TransformableRectangle {
 			height = geo.getMinHeight();
 		}
 
-		if (width < GeoInlineText.DEFAULT_WIDTH) {
+		if (width < geo.getMinWidth()) {
 			if (x != 0) {
-				x = geo.getWidth() - GeoInlineText.DEFAULT_WIDTH;
+				x = geo.getWidth() - geo.getMinWidth();
 			}
-			width = GeoInlineText.DEFAULT_WIDTH;
+			width = geo.getMinWidth();
 		}
 
 		GPoint2D origin = directTransform.transform(new GPoint2D(x, y), null);

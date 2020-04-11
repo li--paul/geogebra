@@ -11,7 +11,7 @@ import org.geogebra.web.html5.main.AppW;
 
 public class InlineFormulaControllerW implements InlineFormulaController {
 
-	private static class FormulaMathFieldListener implements MathFieldListener {
+	private class FormulaMathFieldListener implements MathFieldListener {
 
 		@Override
 		public void onEnter() {
@@ -20,7 +20,20 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 
 		@Override
 		public void onKeyTyped() {
-			// do nothing
+			int width = mathFieldEditor.getMathField().asWidget().getOffsetWidth();
+			int height = mathFieldEditor.getMathField().asWidget().getOffsetHeight();
+
+			if (formula.getWidth() < width) {
+				formula.setWidth(width);
+			}
+			if (formula.getHeight() < height) {
+				formula.setHeight(height);
+			}
+
+			formula.setMinWidth(width);
+			formula.setMinHeight(height);
+
+			formula.updateRepaint();
 		}
 
 		@Override
@@ -59,11 +72,13 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		}
 	}
 
+	private GeoFormula formula;
 	private MathFieldEditor mathFieldEditor;
 
 	private Style style;
 
-	public InlineFormulaControllerW(AppW app,  AbsolutePanel parent) {
+	public InlineFormulaControllerW(GeoFormula formula, AppW app, AbsolutePanel parent) {
+		this.formula = formula;
 		this.mathFieldEditor = new MathFieldEditor(app, new FormulaMathFieldListener());
 
 		mathFieldEditor.attach(parent);
@@ -102,15 +117,30 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 	public void toForeground(int x, int y) {
 		mathFieldEditor.setVisible(true);
 		mathFieldEditor.requestFocus();
+		mathFieldEditor.getMathField().getInternal().onPointerUp(x, y);
 	}
 
 	@Override
 	public void toBackground() {
+		if (!mathFieldEditor.getText().equals(formula.getContent())) {
+			formula.setContent(mathFieldEditor.getText());
+			formula.updateRepaint();
+			formula.getKernel().storeUndoInfo();
+		}
+
 		mathFieldEditor.setVisible(false);
 	}
 
 	@Override
 	public void updateContent(String content) {
-		mathFieldEditor.setText(content);
+		if (content != null) {
+			mathFieldEditor.setText(content);
+		}
+	}
+
+	@Override
+	public void setColor(GColor objectColor) {
+		ColorW color = DrawEquationW.convertColorW(objectColor);
+		mathFieldEditor.getMathField().setForegroundColor(color);
 	}
 }
