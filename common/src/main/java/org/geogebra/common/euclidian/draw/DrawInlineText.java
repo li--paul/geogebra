@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.geos.GeoInlineText;
 /**
  * Class that handles drawing inline text elements.
  */
-public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget, DrawMedia {
+public class DrawInlineText extends Drawable implements RemoveNeeded, DrawMedia {
 
 	public static final int PADDING = 8;
 
@@ -157,62 +157,6 @@ public class DrawInlineText extends Drawable implements RemoveNeeded, DrawWidget
 		if (textController != null) {
 			textController.discard();
 		}
-	}
-
-	@Override
-	public void setWidth(int newWidth) {
-		text.setWidth(newWidth);
-		if (textController != null) {
-			textController.setWidth(newWidth);
-		}
-	}
-
-	@Override
-	public void setHeight(int newHeight) {
-		text.setHeight(newHeight);
-		if (textController != null) {
-			textController.setHeight(newHeight - 2 * PADDING);
-		}
-	}
-
-	@Override
-	public int getLeft() {
-		return rectangle.getLeft();
-	}
-
-	@Override
-	public int getTop() {
-		return rectangle.getTop();
-	}
-
-	@Override
-	public void setAbsoluteScreenLoc(int x, int y) {
-		// Not implemented
-	}
-
-	@Override
-	public double getOriginalRatio() {
-		return 0;
-	}
-
-	@Override
-	public int getWidth() {
-		return rectangle.getWidth();
-	}
-
-	@Override
-	public int getHeight() {
-		return rectangle.getHeight();
-	}
-
-	@Override
-	public void resetRatio() {
-		// Not implemented
-	}
-
-	@Override
-	public boolean isFixedRatio() {
-		return false;
 	}
 
 	@Override
