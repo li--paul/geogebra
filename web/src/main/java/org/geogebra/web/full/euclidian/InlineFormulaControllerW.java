@@ -89,7 +89,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		String origin = "-" + DrawFormula.PADDING + "px ";
 		style.setProperty("transformOrigin", origin + origin);
 		style.setProperty("boxSizing", "border-box");
-		style.setMargin(8, Style.Unit.PX);
+		style.setMargin(DrawFormula.PADDING, Style.Unit.PX);
 	}
 
 	@Override
