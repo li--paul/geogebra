@@ -89,7 +89,7 @@ public class LayersForGroup {
 	 */
 	void moveBackward(GeoElement geo) {
 		int index = indexOf(geo);
-		if (index > 0) {
+		if (index > firstIndexOf(geo.getParentGroup())) {
 			Collections.swap(drawingOrder, index, index - 1);
 		}
 	}

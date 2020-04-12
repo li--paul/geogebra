@@ -66,6 +66,10 @@ public class LayerManagerTest {
 	}
 
 	private void assertOrdering(int... newOrder) {
+		assertOrdering(geos, newOrder);
+	}
+
+	static void assertOrdering(GeoElement[] geos, int... newOrder) {
 		Assert.assertEquals(geos.length, newOrder.length);
 		for (int i = 0; i < geos.length; i++) {
 			Assert.assertEquals(i, geos[newOrder[i]].getOrdering());
