@@ -322,24 +322,17 @@
     /** Material Design TEXT BUTTON **/
     .materialTextButton {
         display: inline-block;
-        position: relative;
         min-width: 64px;
         height: 36px;
-        border: none;
-        outline: none;
         background: transparent;
         color: $mow_primary;
         font-size: 90%;
         letter-spacing: .04em;
         line-height: 36px;
-        text-decoration: none;
         text-transform: uppercase;
-        overflow: hidden;
-        vertical-align: middle;
         border-radius: 4px;
         padding: 0px 8px;
         margin-left: 8px;
-        box-shadow: none;
         cursor: pointer;
         transition: background 280ms cubic-bezier(0.4, 0, 0.2, 1);
 
