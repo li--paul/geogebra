@@ -151,4 +151,9 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		// FIXME in DrawEquation cleanup
 		mathFieldEditor.setFontSize(fontSize + 3);
 	}
+
+	@Override
+	public boolean isInForeground() {
+		return mathFieldEditor.isVisible();
+	}
 }

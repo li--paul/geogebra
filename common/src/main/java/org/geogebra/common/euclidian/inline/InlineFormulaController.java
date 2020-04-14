@@ -21,4 +21,6 @@ public interface InlineFormulaController {
 	void setColor(GColor objectColor);
 
 	void setFontSize(int fontSize);
+
+	boolean isInForeground();
 }

@@ -60,15 +60,17 @@ public class DrawFormula extends Drawable implements DrawMedia {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		g2.setPaint(geo.getObjectColor());
-		g2.setFont(view.getFont());
-		g2.setStroke(objStroke); // needed eg for \sqrt
-		g2.saveTransform();
-		g2.transform(rectangle.getDirectTransform());
-		g2.translate(PADDING, PADDING);
-		drawMultilineLaTeX(g2, view.getFont().deriveFont(0, view.getFontSize()), geo.getObjectColor(),
-				view.getBackgroundCommon());
-		g2.restoreTransform();
+		if (!formulaController.isInForeground()) {
+			g2.setPaint(geo.getObjectColor());
+			g2.setFont(view.getFont());
+			g2.setStroke(objStroke); // needed eg for \sqrt
+			g2.saveTransform();
+			g2.transform(rectangle.getDirectTransform());
+			g2.translate(PADDING, PADDING);
+			drawMultilineLaTeX(g2, view.getFont().deriveFont(0, view.getFontSize()), geo.getObjectColor(),
+					view.getBackgroundCommon());
+			g2.restoreTransform();
+		}
 	}
 
 	@Override
