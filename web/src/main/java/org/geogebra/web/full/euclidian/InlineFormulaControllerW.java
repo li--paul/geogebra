@@ -92,6 +92,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		style.setProperty("transformOrigin", "0px 0px");
 		style.setPaddingLeft(DrawFormula.PADDING, Style.Unit.PX);
 		mathFieldEditor.getMathField().setFixMargin(DrawFormula.PADDING);
+		mathFieldEditor.setUseKeyboardButton(false);
 	}
 
 	@Override
@@ -118,6 +119,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 	@Override
 	public void toForeground(int x, int y) {
 		mathFieldEditor.setVisible(true);
+		mathFieldEditor.setKeyboardVisibility(true);
 		mathFieldEditor.requestFocus();
 		mathFieldEditor.getMathField().getInternal().onPointerUp(x, y);
 	}
@@ -131,6 +133,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		}
 
 		mathFieldEditor.setVisible(false);
+		mathFieldEditor.setKeyboardVisibility(false);
 	}
 
 	@Override
