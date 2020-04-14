@@ -35,7 +35,6 @@ import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.export.AnimationExportDialogW;
-import org.geogebra.web.full.export.PrintPreviewW;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.full.gui.dialog.image.WebcamInputDialog;

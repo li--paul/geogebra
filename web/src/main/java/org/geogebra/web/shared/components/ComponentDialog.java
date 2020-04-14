@@ -46,8 +46,8 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 
 		addTitleOfDialog(dialogMainPanel, dialogData.getTitleTransKey());
 		createEmptyDialogContent(dialogMainPanel);
-		if (dialogData.getNegativeBtnTransKey() != null ||
-				dialogData.getPositiveBtnTransKey() != null) {
+		if (dialogData.getNegativeBtnTransKey() != null
+				|| dialogData.getPositiveBtnTransKey() != null) {
 			addButtonsOfDialog(dialogMainPanel, dialogData);
 		}
 
@@ -154,11 +154,8 @@ public class ComponentDialog extends GPopupPanel implements Persistable, ResizeH
 	@Override
 	protected void onPreviewNativeEvent(Event.NativePreviewEvent event) {
 		Event nativeEvent = Event.as(event.getNativeEvent());
-		switch (event.getTypeInt()) {
-			case Event.ONKEYPRESS:
-				if (isEnter(nativeEvent.getCharCode())) {
-					onPositiveAction();
-				}
+		if (Event.ONKEYPRESS == event.getTypeInt() && isEnter(nativeEvent.getCharCode())) {
+			onPositiveAction();
 		}
 	}
 }
