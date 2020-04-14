@@ -1,6 +1,5 @@
 package org.geogebra.common.euclidian;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -166,18 +165,16 @@ public class GroupLayersTest {
 	@Test
 	public void testMoveForwardThroughGroup() {
 		ArrayList<GeoElement> selection = new ArrayList<>();
-		GeoElement geo = geoByLabel("3");
-		selection.add(geo);
+		selection.add(geos[0]);
 		layerManager.moveForward(selection);
-		assertEquals(7, geo.getOrdering());
+		assertOrdering(1, 2, 3, 0, 4);
 	}
 
 	@Test
-	public void testMoveBackwardsThroughGroup() {
+	public void testMoveBackwardThroughGroup() {
 		ArrayList<GeoElement> selection = new ArrayList<>();
-		GeoElement geo = geoByLabel("8");
-		selection.add(geo);
+		selection.add(geos[4]);
 		layerManager.moveBackward(selection);
-		assertEquals(2, geo.getOrdering());
+		assertOrdering(0, 4, 1, 2, 3);
 	}
 }

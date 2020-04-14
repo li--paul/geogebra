@@ -76,40 +76,45 @@ public class LayerManager {
 	}
 
 	public void moveForwardSelection(List<GeoElement> selection) {
-		ArrayList<GeoElement> resultingOrder = new ArrayList<>(drawingOrder.size());
-		int i = 0;
-		int found = 0;
+		ArrayList<GeoElement> order = new ArrayList<>(drawingOrder.size());
 
-		while (i < drawingOrder.size() && found < selection.size()) {
+		int idx = addGeosBefore(selection, order);
+		idx = forwardByOneGeo(order, idx);
+		addSelectionSorted(order, selection);
+		addRemainingToForwardOrder(order, idx);
+
+		drawingOrder = order;
+		updateOrdering();
+	}
+
+	private int addGeosBefore(List<GeoElement> selection, ArrayList<GeoElement> order) {
+		int i = 0;
+		int skipped = 0;
+		while (i < drawingOrder.size() && skipped < selection.size()) {
 			GeoElement geo = drawingOrder.get(i);
 			if (selection.contains(geo)) {
-				found++;
+				skipped++;
 			} else {
-				resultingOrder.add(geo);
+				order.add(geo);
 			}
 			i++;
 		}
+		return i;
+	}
 
-		// Add one more element to _move forward_
-		if (i < drawingOrder.size()) {
-			GeoElement geo = drawingOrder.get(i);
-			if (geo.hasGroup()) {
-				resultingOrder.addAll(geo.getParentGroup().getGroupedGeos());
-			}
-
-			resultingOrder.add(drawingOrder.get(i));
-			i++;
-		}
-
-		addSorted(resultingOrder, selection);
-
+	private void addRemainingToForwardOrder(ArrayList<GeoElement> resultingOrder, int i) {
 		while (i < drawingOrder.size()) {
 			resultingOrder.add(drawingOrder.get(i));
 			i++;
 		}
+	}
 
-		drawingOrder = resultingOrder;
-		updateOrdering();
+	private int forwardByOneGeo(ArrayList<GeoElement> resultingOrder, int i) {
+		if (i < drawingOrder.size()) {
+			resultingOrder.add(drawingOrder.get(i));
+			i++;
+		}
+		return i;
 	}
 
 	/**
@@ -140,7 +145,7 @@ public class LayerManager {
 			}
 		}
 
-		addSorted(resultingOrder, selection);
+		addSelectionSorted(resultingOrder, selection);
 
 		while (i < drawingOrder.size()) {
 			if (!selection.contains(drawingOrder.get(i))) {
@@ -175,7 +180,7 @@ public class LayerManager {
 			}
 		}
 
-		addSorted(resultingOrder, selection);
+		addSelectionSorted(resultingOrder, selection);
 
 		drawingOrder = resultingOrder;
 	}
@@ -195,7 +200,7 @@ public class LayerManager {
 
 	public void moveSelectionToBack(List<GeoElement> selection) {
 		ArrayList<GeoElement> resultingOrder = new ArrayList<>(drawingOrder.size());
-		addSorted(resultingOrder, selection);
+		addSelectionSorted(resultingOrder, selection);
 
 		for (GeoElement geo : drawingOrder) {
 			if (!selection.contains(geo)) {
@@ -212,7 +217,7 @@ public class LayerManager {
 		}
 	}
 
-	private void addSorted(List<GeoElement> to, List<GeoElement> from) {
+	private void addSelectionSorted(List<GeoElement> to, List<GeoElement> from) {
 		List<GeoElement> copy = new ArrayList<>(from);
 		sortByOrder(copy);
 		to.addAll(copy);
