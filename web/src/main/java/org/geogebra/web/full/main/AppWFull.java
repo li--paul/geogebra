@@ -2211,7 +2211,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	@Override
-	public InlineFormulaController createInlineFormulaController(EuclidianView view, GeoFormula geo) {
-		return new InlineFormulaControllerW(geo, this, ((EuclidianViewW) view).getAbsolutePanel());
+	public InlineFormulaController createInlineFormulaController(EuclidianView view,
+			GeoFormula geo) {
+		return new InlineFormulaControllerW(geo, this,
+				((EuclidianViewW) view).getAbsolutePanel());
 	}
 }

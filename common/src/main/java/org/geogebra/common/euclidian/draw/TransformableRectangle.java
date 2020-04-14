@@ -105,6 +105,11 @@ public class TransformableRectangle {
 		return Arrays.asList(corner0, corner1, corner3);
 	}
 
+	/**
+	 * Transform the drawable based on the transformed points
+	 * @param points
+	 *            list of points defining the drawable
+	 */
 	public void fromPoints(ArrayList<GPoint2D> points) {
 		double newAngle = Math.atan2(points.get(1).getY() - points.get(0).getY(),
 				points.get(1).getX() - points.get(0).getX());

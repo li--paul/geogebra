@@ -14,72 +14,17 @@ import org.geogebra.web.html5.main.AppW;
 
 public class InlineFormulaControllerW implements InlineFormulaController {
 
-	private class FormulaMathFieldListener implements MathFieldListener {
-
-		@Override
-		public void onEnter() {
-			// do nothing
-		}
-
-		@Override
-		public void onKeyTyped() {
-			int width = mathFieldEditor.getMathField().asWidget().getOffsetWidth() + 2 * DrawFormula.PADDING;
-			int height = mathFieldEditor.getMathField().asWidget().getOffsetHeight();
-
-			if (formula.getWidth() < width) {
-				formula.setWidth(width);
-			}
-			if (formula.getHeight() < height) {
-				formula.setHeight(height);
-			}
-
-			formula.setMinWidth(width);
-			formula.setMinHeight(height);
-
-			formula.updateRepaint();
-		}
-
-		@Override
-		public void onCursorMove() {
-			// do nothing
-		}
-
-		@Override
-		public void onUpKeyPressed() {
-			// do nothing
-		}
-
-		@Override
-		public void onDownKeyPressed() {
-			// do nothing
-		}
-
-		@Override
-		public String serialize(MathSequence selectionText) {
-			return null;
-		}
-
-		@Override
-		public void onInsertString() {
-			// do nothing
-		}
-
-		@Override
-		public boolean onEscape() {
-			return false;
-		}
-
-		@Override
-		public void onTab(boolean shiftDown) {
-			// do nothing
-		}
-	}
-
 	private final GeoFormula formula;
 	private final MathFieldEditor mathFieldEditor;
 
 	private final Style style;
 
+	/**
+	 * Controller (communicates with MathFieldEditor) for the inline formula editor
+	 * @param formula GeoFormula to be edited
+	 * @param app the application
+	 * @param parent parent panel (generally, the euclidian view)
+	 */
 	public InlineFormulaControllerW(GeoFormula formula, AppW app, AbsolutePanel parent) {
 		this.formula = formula;
 		this.mathFieldEditor = new MathFieldEditor(app, new FormulaMathFieldListener());
@@ -158,5 +103,67 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 	@Override
 	public boolean isInForeground() {
 		return mathFieldEditor.isVisible();
+	}
+
+	private class FormulaMathFieldListener implements MathFieldListener {
+
+		@Override
+		public void onEnter() {
+			// do nothing
+		}
+
+		@Override
+		public void onKeyTyped() {
+			int width = mathFieldEditor.getMathField().asWidget().getOffsetWidth()
+					+ 2 * DrawFormula.PADDING;
+			int height = mathFieldEditor.getMathField().asWidget().getOffsetHeight();
+
+			if (formula.getWidth() < width) {
+				formula.setWidth(width);
+			}
+			if (formula.getHeight() < height) {
+				formula.setHeight(height);
+			}
+
+			formula.setMinWidth(width);
+			formula.setMinHeight(height);
+
+			formula.updateRepaint();
+		}
+
+		@Override
+		public void onCursorMove() {
+			// do nothing
+		}
+
+		@Override
+		public void onUpKeyPressed() {
+			// do nothing
+		}
+
+		@Override
+		public void onDownKeyPressed() {
+			// do nothing
+		}
+
+		@Override
+		public String serialize(MathSequence selectionText) {
+			return null;
+		}
+
+		@Override
+		public void onInsertString() {
+			// do nothing
+		}
+
+		@Override
+		public boolean onEscape() {
+			return false;
+		}
+
+		@Override
+		public void onTab(boolean shiftDown) {
+			// do nothing
+		}
 	}
 }

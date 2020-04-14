@@ -5222,7 +5222,6 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		algebraOutputFilter = null;
 	}
 
-
 	/**
 	 * Create an inline text controller iff the view supports inline text
 	 * editing.
@@ -5232,11 +5231,13 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *
 	 * @return an implementation of the text controller.
 	 */
-	public InlineTextController createInlineTextController(EuclidianView view, GeoInlineText geo) {
+	public InlineTextController createInlineTextController(EuclidianView view,
+		   GeoInlineText geo) {
 		return null;
 	}
 
-	public InlineFormulaController createInlineFormulaController(EuclidianView view, GeoFormula geo) {
+	public InlineFormulaController createInlineFormulaController(EuclidianView view,
+			GeoFormula geo) {
 		return null;
-	};
+	}
 }
