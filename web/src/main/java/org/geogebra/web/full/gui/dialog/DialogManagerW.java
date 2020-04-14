@@ -326,13 +326,10 @@ public class DialogManagerW extends DialogManager
 	 */
 	@Override
 	public void showExportImageDialog(String base64Image) {
-		/*ExportImageDialog expImgDialog = new ExportImageDialog((AppW) app,
+		ExportImageDialog expImgDialog = new ExportImageDialog((AppW) app,
 				base64Image);
 		expImgDialog.center();
-		expImgDialog.show();*/
-		ComponentDialog dialogComponent = new ComponentDialog((AppW) app,
-				new DialogData("Dialog Title", "Cancel", "Insert"), true, true);
-		dialogComponent.show();
+		expImgDialog.show();
 	}
 
 	/**
@@ -666,7 +663,10 @@ public class DialogManagerW extends DialogManager
 				|| app.getGuiManager().showView(App.VIEW_ALGEBRA)
 				|| app.getGuiManager()
 						.showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
-			new PrintPreviewW((AppW) app).show();
+			/*new PrintPreviewW((AppW) app).show();*/
+			ComponentDialog dialogComponent = new ComponentDialog((AppW) app,
+					new DialogData("Dialog Title", "Cancel", "Insert"), true, true);
+			dialogComponent.show();
 		}
 	}
 
