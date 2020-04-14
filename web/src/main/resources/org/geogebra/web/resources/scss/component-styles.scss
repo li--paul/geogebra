@@ -302,6 +302,8 @@
 
             .dialogContent {
                 // 112px = 20px title + 20px margin + 52px button panel
+                // NOTE: this needs to be adjusted according what is added to the dialog
+                // (e.g. if no buttons do not add button panel height)
                 height: calc(100% - 92px);
                 background-color: aliceblue;
                 padding-right: 24px;

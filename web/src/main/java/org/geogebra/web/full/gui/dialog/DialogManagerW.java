@@ -67,7 +67,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class DialogManagerW extends DialogManager
 		implements LoadingApplication {
@@ -332,8 +331,7 @@ public class DialogManagerW extends DialogManager
 		expImgDialog.center();
 		expImgDialog.show();*/
 		ComponentDialog dialogComponent = new ComponentDialog((AppW) app,
-				new DialogData("Dialog Title", new ArrayList<String>(Arrays
-						.asList("CANCEL", "OK", "SELECT"))), true, true);
+				new DialogData("Dialog Title", "Cancel", "Insert"), true, true);
 		dialogComponent.show();
 	}
 

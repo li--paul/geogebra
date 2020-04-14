@@ -1,23 +1,23 @@
 package org.geogebra.web.shared.components;
 
-import java.util.ArrayList;
-
 /**
  * object holding the settings of the dialog
  */
 public class DialogData {
 
 	private String titleTransKey;
-	private ArrayList<String> buttonTransKeys;
+	private String negativeBtnTransKey;
+	private String positiveBtnTransKey;
 
 	/**
 	 * dialog settings constructor
 	 * @param titleTransKey - ggb trans key for the dialog title
-	 * @param buttonTransKeys - list of button text trans keys
+	 * @param negativeBtnTransKey - negative button trans key
+	 * @param positiveBtnTransKey - positive button trans key
 	 */
-	public DialogData(String titleTransKey, ArrayList<String> buttonTransKeys) {
+	public DialogData(String titleTransKey, String negativeBtnTransKey, String positiveBtnTransKey) {
 		setTitleTransKey(titleTransKey);
-		setButtonTransKeys(buttonTransKeys);
+		setButtonTransKeys(negativeBtnTransKey, positiveBtnTransKey);
 	}
 
 	/**
@@ -35,16 +35,26 @@ public class DialogData {
 	}
 
 	/**
-	 * @return list of button trans keys from
+	 * setter for the buttons trans key
+	 * @param negativeBtnTransKey - trans key for the negative button (e.g. Cancel)
+	 * @param positiveBtnTransKey - trans key for the positive button (e.g. Insert)
 	 */
-	public ArrayList<String> getButtonTransKeys() {
-		return buttonTransKeys;
+	public void setButtonTransKeys(String negativeBtnTransKey, String positiveBtnTransKey) {
+		this.negativeBtnTransKey = negativeBtnTransKey;
+		this.positiveBtnTransKey = positiveBtnTransKey;
 	}
 
 	/**
-	 * @param buttonTransKeys - ggb trans keys of the dialog buttons
+	 * @return negative button trans key
 	 */
-	public void setButtonTransKeys(ArrayList<String> buttonTransKeys) {
-		this.buttonTransKeys = buttonTransKeys;
+	public String getNegativeBtnTransKey() {
+		return negativeBtnTransKey;
+	}
+
+	/**
+	 * @return positive button trans key
+	 */
+	public String getPositiveBtnTransKey() {
+		return positiveBtnTransKey;
 	}
 }
