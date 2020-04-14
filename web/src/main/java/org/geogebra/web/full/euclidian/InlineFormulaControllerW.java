@@ -4,8 +4,11 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathSequence;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.draw.DrawFormula;
 import org.geogebra.common.euclidian.inline.InlineFormulaController;
+import org.geogebra.common.kernel.geos.GeoFormula;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.main.AppW;
 
@@ -20,7 +23,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 
 		@Override
 		public void onKeyTyped() {
-			int width = mathFieldEditor.getMathField().asWidget().getOffsetWidth();
+			int width = mathFieldEditor.getMathField().asWidget().getOffsetWidth() + 2 * DrawFormula.PADDING;
 			int height = mathFieldEditor.getMathField().asWidget().getOffsetHeight();
 
 			if (formula.getWidth() < width) {
@@ -72,10 +75,10 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		}
 	}
 
-	private GeoFormula formula;
-	private MathFieldEditor mathFieldEditor;
+	private final GeoFormula formula;
+	private final MathFieldEditor mathFieldEditor;
 
-	private Style style;
+	private final Style style;
 
 	public InlineFormulaControllerW(GeoFormula formula, AppW app, AbsolutePanel parent) {
 		this.formula = formula;
@@ -86,10 +89,9 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 
 		this.style = mathFieldEditor.getStyle();
 		style.setPosition(Style.Position.ABSOLUTE);
-		String origin = "-" + DrawFormula.PADDING + "px ";
-		style.setProperty("transformOrigin", origin + origin);
-		style.setProperty("boxSizing", "border-box");
-		style.setMargin(DrawFormula.PADDING, Style.Unit.PX);
+		style.setProperty("transformOrigin", "0px 0px");
+		style.setPaddingLeft(DrawFormula.PADDING, Style.Unit.PX);
+		mathFieldEditor.getMathField().setFixMargin(DrawFormula.PADDING);
 	}
 
 	@Override
@@ -140,7 +142,13 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 
 	@Override
 	public void setColor(GColor objectColor) {
-		ColorW color = DrawEquationW.convertColorW(objectColor);
-		mathFieldEditor.getMathField().setForegroundColor(color);
+		mathFieldEditor.getMathField().setForegroundCssColor(StringUtil.toHtmlColor(objectColor));
+	}
+
+	@Override
+	public void setFontSize(int fontSize) {
+		// +3 coming from DrawEquation.createIcon.... :((
+		// FIXME in DrawEquation cleanup
+		mathFieldEditor.setFontSize(fontSize + 3);
 	}
 }

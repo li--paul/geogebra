@@ -54,6 +54,7 @@ public class DrawFormula extends Drawable implements DrawMedia {
 			formulaController.setWidth((int) (width - 2 * PADDING));
 			formulaController.setAngle(angle);
 			formulaController.setColor(geo.getObjectColor());
+			formulaController.setFontSize(view.getFontSize());
 		}
 	}
 
@@ -65,7 +66,7 @@ public class DrawFormula extends Drawable implements DrawMedia {
 		g2.saveTransform();
 		g2.transform(rectangle.getDirectTransform());
 		g2.translate(PADDING, PADDING);
-		drawMultilineLaTeX(g2, view.getFont(), geo.getObjectColor(),
+		drawMultilineLaTeX(g2, view.getFont().deriveFont(0, view.getFontSize()), geo.getObjectColor(),
 				view.getBackgroundCommon());
 		g2.restoreTransform();
 	}

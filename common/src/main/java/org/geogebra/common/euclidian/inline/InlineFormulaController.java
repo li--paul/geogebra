@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian.inline;
 
+import org.geogebra.common.awt.GColor;
+
 public interface InlineFormulaController {
 
 	void setLocation(int x, int y);
@@ -15,4 +17,8 @@ public interface InlineFormulaController {
 	void toBackground();
 
 	void updateContent(String content);
+
+	void setColor(GColor objectColor);
+
+	void setFontSize(int fontSize);
 }
