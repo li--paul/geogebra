@@ -58,6 +58,7 @@ public class DrawablesTest {
 		GeoEmbed embed = new GeoEmbed(app.getKernel().getConstruction());
 		embed.setLabel("embed");
 		GeoFormula formula = new GeoFormula(app.getKernel().getConstruction(), null);
+		formula.setContent("\\frac{a}{b}");
 		formula.setLabel("formula");
 		GeoSymbolic symbolic = new GeoSymbolic(
 				app.getKernel().getConstruction());

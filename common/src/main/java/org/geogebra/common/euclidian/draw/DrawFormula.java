@@ -60,7 +60,7 @@ public class DrawFormula extends Drawable implements DrawMedia {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-		if (!formulaController.isInForeground()) {
+		if (formulaController == null || !formulaController.isInForeground()) {
 			g2.setPaint(geo.getObjectColor());
 			g2.setFont(view.getFont());
 			g2.setStroke(objStroke); // needed eg for \sqrt
