@@ -221,10 +221,8 @@ public class TransformableRectangle {
 			return;
 		}
 		update();
-		if (boundingBox != null) {
-			boundingBox.setRectangle(getBounds());
-			boundingBox.setTransform(getDirectTransform());
-		}
+		getBoundingBox().setRectangle(getBounds());
+		getBoundingBox().setTransform(getDirectTransform());
 	}
 
 	/**

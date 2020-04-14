@@ -7,6 +7,7 @@ import com.himamis.retex.editor.share.model.MathSequence;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.draw.DrawFormula;
 import org.geogebra.common.euclidian.inline.InlineFormulaController;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
@@ -31,6 +32,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 
 		mathFieldEditor.attach(parent);
 		mathFieldEditor.addStyleName("mowWidget");
+		mathFieldEditor.setVisible(false);
 
 		this.style = mathFieldEditor.getStyle();
 		style.setPosition(Style.Position.ABSOLUTE);
@@ -63,6 +65,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 
 	@Override
 	public void toForeground(int x, int y) {
+		mathFieldEditor.setText(formula.toValueString(StringTemplate.defaultTemplate));
 		mathFieldEditor.setVisible(true);
 		mathFieldEditor.setKeyboardVisibility(true);
 		mathFieldEditor.requestFocus();
@@ -71,7 +74,8 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 
 	@Override
 	public void toBackground() {
-		if (!mathFieldEditor.getText().equals(formula.getContent())) {
+		if (mathFieldEditor.isVisible()
+				&& !mathFieldEditor.getText().equals(formula.getContent())) {
 			formula.setContent(mathFieldEditor.getText());
 			formula.updateRepaint();
 			formula.getKernel().storeUndoInfo();

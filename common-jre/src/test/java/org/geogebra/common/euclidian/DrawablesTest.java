@@ -30,7 +30,7 @@ public class DrawablesTest {
 
 	@Test
 	public void checkDrawables() {
-		String[] def = new String[] { "(1,1)", "Angle[x^2=y^2]", "true",
+		final String[] def = new String[] { "(1,1)", "Angle[x^2=y^2]", "true",
 				"Button[]", "InputBox[]", "x^2+y^2/3=1",
 				"Semicircle[(0,0),(1,1)]", "xx", "1<x<2", "x=y", "{(1,1)}",
 				"ConvexHull[(0,0),(0,1),(1,0)]", "7",

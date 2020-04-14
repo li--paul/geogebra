@@ -35,7 +35,7 @@ public class GeoFormula extends GeoElement implements GeoInline, Translateable, 
 	private double minHeight;
 
 	private double angle = 0;
-	private String latex;
+	private String latex = "";
 
 	/**
 	 * Creates new GeoElement for given construction
