@@ -125,8 +125,11 @@ public class SymbolicEditorW implements SymbolicEditor, MathFieldListener,
 			@Override
 			public void execute(double timestamp) {
 				view.doRepaint2();
-				editor.setVisible(false);
-				editor.setKeyboardVisibility(false);
+				// don't hide the editor if we switched to another box meanwhile
+				if (!drawInputBox.isEditing()) {
+					editor.setVisible(false);
+					editor.setKeyboardVisibility(false);
+				}
 			}
 		});
 	}
