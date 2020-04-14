@@ -1,18 +1,13 @@
 package org.geogebra.common.euclidian;
 
-import static org.junit.Assert.fail;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
 import org.geogebra.common.jre.headless.LocalizationCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.groups.Group;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,38 +16,25 @@ public class GroupLayersTest {
 
 	private LayerManager layerManager;
 	private GeoElement[] geos;
-	private Map<String, GeoElement> geoMap = new HashMap<>();
-	private Construction construction;
-	private Group group;
-	private ArrayList<GeoElement> members;
 
 	@Before
 	public void setup() {
 		AwtFactoryCommon factoryCommon = new AwtFactoryCommon();
 		AppCommon app = new AppCommon(new LocalizationCommon(2), factoryCommon);
-		construction = app.getKernel().getConstruction();
+		Construction construction = app.getKernel().getConstruction();
 		layerManager = new LayerManager();
 		geos = new GeoElement[5];
 		for (int i = 0; i < 5; i++) {
-			geos[i] = createDummyGeo(i);
+			geos[i] = LayerManagerTest.createDummyGeo(construction, i);
 			layerManager.addGeo(geos[i]);
 		}
-		members = new ArrayList<GeoElement>(
-						Arrays.asList(
-								geos[1], geos[2], geos[3])
+
+		ArrayList<GeoElement> members = new ArrayList<>(
+				Arrays.asList(
+						geos[1], geos[2], geos[3])
 		);
-		group = new Group(members);
+		Group group = new Group(members);
 		construction.addGroupToGroupList(group);
-	}
-
-	private GeoElement createDummyGeo(int i) {
-		GeoElement geo = new GeoPolygon(construction);
-		geo.setLabel(i +"");
-		return geo;
-	}
-
-	private GeoElement geoByLabel(String label) {
-		return geoMap.get(label);
 	}
 
 	@Test
@@ -126,11 +108,6 @@ public class GroupLayersTest {
 		layerManager.moveBackward(selection);
 		assertOrderingUnchanged();
 	}
-
-	private void assertOrderingInGroup(Integer... orders) {
-		fail();
-	}
-
 
 	@Test
 	public void testMoveToFrontAndBack() {
