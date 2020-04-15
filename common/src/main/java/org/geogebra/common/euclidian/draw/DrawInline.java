@@ -1,6 +1,6 @@
 package org.geogebra.common.euclidian.draw;
 
-public interface DrawMedia {
+public interface DrawInline {
 	/**
 	 * Update editor from geo
 	 */

@@ -32,7 +32,7 @@ import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawInlineText;
-import org.geogebra.common.euclidian.draw.DrawMedia;
+import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
@@ -6310,8 +6310,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		selectAndShowBoundingBox(inlineText);
 		DrawableND drawable = view.getDrawableFor(inlineText);
 		drawable.update();
-		if (drawable instanceof DrawMedia) {
-			((DrawMedia) drawable).toForeground(0, 0);
+		if (drawable instanceof DrawInline) {
+			((DrawInline) drawable).toForeground(0, 0);
 		}
 	}
 
@@ -7910,8 +7910,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			app.getMaskWidgets().clearMasks();
 		}
 		for (Drawable dr : view.allDrawableList) {
-			if (dr instanceof DrawMedia) {
-				((DrawMedia) dr).toBackground();
+			if (dr instanceof DrawInline) {
+				((DrawInline) dr).toBackground();
 			}
 		}
 	}
@@ -9927,7 +9927,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		if (topGeo == lastInline && !draggingOccured) {
 			showDynamicStylebar();
-			((DrawMedia) view.getDrawableFor(topGeo)).toForeground(mouseLoc.x, mouseLoc.y);
+			((DrawInline) view.getDrawableFor(topGeo)).toForeground(mouseLoc.x, mouseLoc.y);
 
 			// Fix weird multiselect bug.
 			setResizedShape(null);

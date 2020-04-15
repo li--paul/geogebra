@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.geos.GeoInlineText;
 /**
  * Class that handles drawing inline text elements.
  */
-public class DrawInlineText extends Drawable implements RemoveNeeded, DrawMedia {
+public class DrawInlineText extends Drawable implements RemoveNeeded, DrawInline {
 
 	public static final int PADDING = 8;
 

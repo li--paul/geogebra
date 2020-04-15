@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.geos.GeoFormula;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrawFormula extends Drawable implements DrawMedia {
+public class DrawFormula extends Drawable implements DrawInline {
 
 	public static final int PADDING = 8;
 
