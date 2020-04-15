@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.euclidian.RotatableBoundingBox;
 import org.geogebra.common.euclidian.inline.InlineFormulaController;
 import org.geogebra.common.kernel.StringTemplate;
@@ -15,7 +16,7 @@ import org.geogebra.common.kernel.geos.GeoFormula;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrawFormula extends Drawable implements DrawInline {
+public class DrawFormula extends Drawable implements DrawInline, RemoveNeeded {
 
 	public static final int PADDING = 8;
 
@@ -50,8 +51,8 @@ public class DrawFormula extends Drawable implements DrawInline {
 
 			formulaController.setLocation(view.toScreenCoordX(point.getX()),
 					view.toScreenCoordY(point.getY()));
-			formulaController.setHeight((int) (height - 2 * PADDING));
-			formulaController.setWidth((int) (width - 2 * PADDING));
+			formulaController.setHeight((int) (height));
+			formulaController.setWidth((int) (width - PADDING));
 			formulaController.setAngle(angle);
 			formulaController.setColor(geo.getObjectColor());
 			formulaController.setFontSize(view.getFontSize());
@@ -133,5 +134,12 @@ public class DrawFormula extends Drawable implements DrawInline {
 	@Override
 	protected List<GPoint2D> toPoints() {
 		return rectangle.toPoints();
+	}
+
+	@Override
+	public void remove() {
+		if (formulaController != null) {
+			formulaController.discard();
+		}
 	}
 }

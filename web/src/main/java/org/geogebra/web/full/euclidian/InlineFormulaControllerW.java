@@ -1,5 +1,6 @@
 package org.geogebra.web.full.euclidian;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.himamis.retex.editor.share.event.MathFieldListener;
@@ -7,10 +8,8 @@ import com.himamis.retex.editor.share.model.MathSequence;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.draw.DrawFormula;
 import org.geogebra.common.euclidian.inline.InlineFormulaController;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
 import org.geogebra.web.html5.main.AppW;
 
@@ -19,6 +18,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 	private final GeoFormula formula;
 	private final MathFieldEditor mathFieldEditor;
 
+	private final AbsolutePanel widget;
 	private final Style style;
 
 	/**
@@ -31,14 +31,17 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		this.formula = formula;
 		this.mathFieldEditor = new MathFieldEditor(app, new FormulaMathFieldListener());
 
-		mathFieldEditor.attach(parent);
-		mathFieldEditor.addStyleName("mowWidget");
-		mathFieldEditor.setVisible(false);
+		this.widget = new AbsolutePanel();
+		widget.setVisible(false);
+		widget.addStyleName("mowWidget");
+		parent.add(widget);
 
-		this.style = mathFieldEditor.getStyle();
+		this.style = widget.getElement().getStyle();
 		style.setPosition(Style.Position.ABSOLUTE);
 		style.setProperty("transformOrigin", "0px 0px");
 		style.setPaddingLeft(DrawFormula.PADDING, Style.Unit.PX);
+
+		mathFieldEditor.attach(widget);
 		mathFieldEditor.getMathField().setFixMargin(DrawFormula.PADDING);
 		mathFieldEditor.setUseKeyboardButton(false);
 	}
@@ -69,7 +72,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		if (formula.getContent() != null) {
 			mathFieldEditor.setText(formula.getContent());
 		}
-		mathFieldEditor.setVisible(true);
+		widget.setVisible(true);
 		mathFieldEditor.setKeyboardVisibility(true);
 		mathFieldEditor.requestFocus();
 		mathFieldEditor.getMathField().getInternal().onPointerUp(x, y);
@@ -77,14 +80,14 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 
 	@Override
 	public void toBackground() {
-		if (mathFieldEditor.isVisible()
+		if (widget.isVisible()
 				&& !mathFieldEditor.getText().equals(formula.getContent())) {
 			formula.setContent(mathFieldEditor.getText());
 			formula.updateRepaint();
 			formula.getKernel().storeUndoInfo();
 		}
 
-		mathFieldEditor.setVisible(false);
+		widget.setVisible(false);
 		mathFieldEditor.setKeyboardVisibility(false);
 	}
 
@@ -109,7 +112,13 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 
 	@Override
 	public boolean isInForeground() {
-		return mathFieldEditor.isVisible();
+		return widget.isVisible();
+	}
+
+	@Override
+	public void discard() {
+		mathFieldEditor.setKeyboardVisibility(false);
+		widget.removeFromParent();
 	}
 
 	private class FormulaMathFieldListener implements MathFieldListener {
@@ -121,21 +130,26 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 
 		@Override
 		public void onKeyTyped() {
-			int width = mathFieldEditor.getMathField().asWidget().getOffsetWidth()
-					+ 2 * DrawFormula.PADDING;
-			int height = mathFieldEditor.getMathField().asWidget().getOffsetHeight();
+			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+				@Override
+				public void execute() {
+					int width = mathFieldEditor.getMathField().asWidget().getOffsetWidth()
+							+ 2 * DrawFormula.PADDING;
+					int height = mathFieldEditor.getMathField().asWidget().getOffsetHeight();
 
-			if (formula.getWidth() < width) {
-				formula.setWidth(width);
-			}
-			if (formula.getHeight() < height) {
-				formula.setHeight(height);
-			}
+					if (formula.getWidth() < width) {
+						formula.setWidth(width);
+					}
+					if (formula.getHeight() < height) {
+						formula.setHeight(height);
+					}
 
-			formula.setMinWidth(width);
-			formula.setMinHeight(height);
+					formula.setMinWidth(width);
+					formula.setMinHeight(height);
 
-			formula.updateRepaint();
+					formula.updateRepaint();
+				}
+			});
 		}
 
 		@Override

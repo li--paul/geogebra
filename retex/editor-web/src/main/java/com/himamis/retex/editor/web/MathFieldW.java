@@ -578,7 +578,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync, BlurHand
 		}
 		final double height = computeHeight(lastIcon);
 		final double width = roundUp(lastIcon.getIconWidth() + 30);
-		ctx.getCanvas().setHeight(((int) Math.ceil(height * ratio)));
+		ctx.getCanvas().setHeight((int) Math.ceil(height * ratio));
 		ctx.getCanvas().setWidth((int) Math.ceil(width * ratio));
 
 		JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), new ColorW(foregroundCssColor),

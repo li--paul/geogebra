@@ -23,4 +23,6 @@ public interface InlineFormulaController {
 	void setFontSize(int fontSize);
 
 	boolean isInForeground();
+
+	void discard();
 }
