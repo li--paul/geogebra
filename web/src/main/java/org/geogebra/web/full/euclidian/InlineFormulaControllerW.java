@@ -65,7 +65,9 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 
 	@Override
 	public void toForeground(int x, int y) {
-		mathFieldEditor.setText(formula.toValueString(StringTemplate.defaultTemplate));
+		if (formula.getContent() != null) {
+			mathFieldEditor.setText(formula.getContent());
+		}
 		mathFieldEditor.setVisible(true);
 		mathFieldEditor.setKeyboardVisibility(true);
 		mathFieldEditor.requestFocus();
