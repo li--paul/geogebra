@@ -144,28 +144,35 @@ public class LayerManager {
 	}
 
 	public void moveBackwardSelection(List<GeoElement> selection) {
-		ArrayList<GeoElement> order = new ArrayList<>(drawingOrder.size());
-		int i = addGeosReverse(selection, order);
-		Group group = drawingOrder.get(i).getParentGroup();
-		while (i >= 0 && group != null && getGroupOf(i) == group)
-		{
-			order.add(0, drawingOrder.get(i));
-			i--;
-		}
-
-		insertSelectionSorted(order, selection);
-
-		while (i >= 0) {
-			if (!selection.contains(drawingOrder.get(i))) {
-				order.add(0, drawingOrder.get(i));
-			}
-			i--;
-		}
-		drawingOrder = order;
+		ArrayList<GeoElement> result = new ArrayList<>(drawingOrder.size());
+		int idx = insertGeosBefore(selection, result);
+		idx = insertGroupedGeos(result, idx);
+		insertSelectionSorted(result, selection);
+		insertRemainingGeos(result, selection, idx);
+		drawingOrder = result;
 		updateOrdering();
 	}
 
-	private int addGeosReverse(List<GeoElement> selection, ArrayList<GeoElement> order) {
+	private void insertRemainingGeos(ArrayList<GeoElement> result, List<GeoElement> selection, int idx) {
+		while (idx >= 0) {
+			if (!selection.contains(drawingOrder.get(idx))) {
+				result.add(0, drawingOrder.get(idx));
+			}
+			idx--;
+		}
+	}
+
+	private int insertGroupedGeos(ArrayList<GeoElement> result, int idx) {
+		int i = idx;
+		Group group = drawingOrder.get(i).getParentGroup();
+		while (i >= 0 && group != null && getGroupOf(i) == group) {
+			result.add(0, drawingOrder.get(i));
+			i--;
+		}
+		return i;
+	}
+
+	private int insertGeosBefore(List<GeoElement> selection, ArrayList<GeoElement> order) {
 		int i = drawingOrder.size() - 1;
 		int skipped = 0;
 		while (i > 0 && skipped < selection.size()) {
@@ -173,7 +180,7 @@ public class LayerManager {
 			if (selection.contains(geo)) {
 				skipped++;
 			} else {
-				order.add(geo);
+				order.add(0, geo);
 			}
 			i--;
 		}
