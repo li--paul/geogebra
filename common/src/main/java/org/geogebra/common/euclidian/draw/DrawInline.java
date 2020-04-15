@@ -1,6 +1,8 @@
 package org.geogebra.common.euclidian.draw;
 
-public interface DrawInline {
+import org.geogebra.common.euclidian.RemoveNeeded;
+
+public interface DrawInline extends RemoveNeeded {
 	/**
 	 * Update editor from geo
 	 */

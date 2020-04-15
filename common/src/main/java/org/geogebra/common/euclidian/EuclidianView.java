@@ -28,7 +28,7 @@ import org.geogebra.common.euclidian.draw.DrawAudio;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawImage;
-import org.geogebra.common.euclidian.draw.DrawInlineText;
+import org.geogebra.common.euclidian.draw.DrawInline;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawLine.PreviewType;
@@ -6606,8 +6606,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void resetInlineTexts() {
 		for (Drawable dr : allDrawableList) {
-			if (dr instanceof DrawInlineText) {
-				((DrawInlineText) dr).remove();
+			if (dr instanceof DrawInline) {
+				((DrawInline) dr).remove();
 			}
 		}
 	}

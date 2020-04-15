@@ -6,7 +6,6 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.euclidian.RotatableBoundingBox;
 import org.geogebra.common.euclidian.inline.InlineFormulaController;
 import org.geogebra.common.kernel.StringTemplate;
@@ -16,7 +15,7 @@ import org.geogebra.common.kernel.geos.GeoFormula;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrawFormula extends Drawable implements DrawInline, RemoveNeeded {
+public class DrawFormula extends Drawable implements DrawInline {
 
 	public static final int PADDING = 8;
 

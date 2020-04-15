@@ -9,7 +9,6 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.euclidian.RotatableBoundingBox;
 import org.geogebra.common.euclidian.inline.InlineTextController;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -18,7 +17,7 @@ import org.geogebra.common.kernel.geos.GeoInlineText;
 /**
  * Class that handles drawing inline text elements.
  */
-public class DrawInlineText extends Drawable implements RemoveNeeded, DrawInline {
+public class DrawInlineText extends Drawable implements DrawInline {
 
 	public static final int PADDING = 8;
 
