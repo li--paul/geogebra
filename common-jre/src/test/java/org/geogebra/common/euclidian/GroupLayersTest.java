@@ -1,7 +1,8 @@
 package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.geogebra.common.factories.AwtFactoryCommon;
 import org.geogebra.common.jre.headless.AppCommon;
@@ -16,33 +17,49 @@ public class GroupLayersTest {
 
 	private LayerManager layerManager;
 	private GeoElement[] geos;
+	private Construction construction;
 
 	@Before
 	public void setup() {
 		AwtFactoryCommon factoryCommon = new AwtFactoryCommon();
 		AppCommon app = new AppCommon(new LocalizationCommon(2), factoryCommon);
-		Construction construction = app.getKernel().getConstruction();
+		construction = app.getKernel().getConstruction();
 		layerManager = new LayerManager();
-		geos = new GeoElement[5];
-		for (int i = 0; i < 5; i++) {
-			geos[i] = LayerManagerTest.createDummyGeo(construction, i);
-			layerManager.addGeo(geos[i]);
-		}
-
-		ArrayList<GeoElement> members = new ArrayList<>(
-				Arrays.asList(
-						geos[1], geos[2], geos[3])
-		);
-		Group group = new Group(members);
-		construction.addGroupToGroupList(group);
+		withGeos(5);
 	}
 
 	@Test
 	public void testMoveToFront() {
-		ArrayList<GeoElement> selection = new ArrayList<>();
-		selection.add(geos[1]);
-		layerManager.moveToFront(selection);
+		withDefaultGroup();
+		layerManager.moveToFront(selection(1));
 		assertOrdering(0, 2, 3, 1, 4);
+	}
+
+	private void withDefaultGroup() {
+		withGroup(1, 2, 3);
+	}
+
+	private void withGeos(final int count) {
+		geos = new GeoElement[count];
+		for (int i = 0; i < count; i++) {
+			geos[i] = LayerManagerTest.createDummyGeo(construction, i);
+			layerManager.addGeo(geos[i]);
+		}
+	}
+
+	private List<GeoElement> selection(int i) {
+		return Collections.singletonList(geos[i]);
+	}
+
+	private void withGroup(int... indexes) {
+		ArrayList<GeoElement> members = new ArrayList<>();
+		for (int idx: indexes) {
+			members.add(geos[idx]);
+		}
+
+		Group group = new Group(members);
+		construction.addGroupToGroupList(group);
+
 	}
 
 	private void assertOrdering(int... newOrder) {
@@ -51,9 +68,8 @@ public class GroupLayersTest {
 
 	@Test
 	public void testMoveFirstToFront() {
-		ArrayList<GeoElement> selection = new ArrayList<>();
-		selection.add(geos[3]);
-		layerManager.moveToFront(selection);
+		withDefaultGroup();
+		layerManager.moveToFront(selection(3));
 		assertOrderingUnchanged();
 	}
 
@@ -63,95 +79,98 @@ public class GroupLayersTest {
 
 	@Test
 	public void testMoveToBack() {
-		ArrayList<GeoElement> selection = new ArrayList<>();
-		selection.add(geos[3]);
-		layerManager.moveToBack(selection);
+		withDefaultGroup();
+		layerManager.moveToBack(selection(3));
 		assertOrdering(0, 3, 1, 2, 4);
 	}
 
 	@Test
 	public void testMoveLastToBack() {
-		ArrayList<GeoElement> selection = new ArrayList<>();
-		selection.add(geos[1]);
-		layerManager.moveToBack(selection);
+		withDefaultGroup();
+		layerManager.moveToBack(selection(1));
 		assertOrderingUnchanged();
 	}
 
 	@Test
 	public void testMoveForward() {
-		ArrayList<GeoElement> selection = new ArrayList<>();
-		selection.add(geos[1]);
-		layerManager.moveForward(selection);
+		withDefaultGroup();
+		layerManager.moveForward(selection(1));
 		assertOrdering(0, 2, 1, 3, 4);
 	}
 
 	@Test
 	public void testMoveForwardLastInGroup() {
-		ArrayList<GeoElement> selection = new ArrayList<>();
-		selection.add(geos[3]);
-		layerManager.moveForward(selection);
+		withDefaultGroup();
+		layerManager.moveForward(selection(3));
 		assertOrderingUnchanged();
 	}
 
 	@Test
 	public void testMoveBackwardInGroup() {
-		ArrayList<GeoElement> selection = new ArrayList<>();
-		selection.add(geos[3]);
-		layerManager.moveBackward(selection);
+		withDefaultGroup();
+		layerManager.moveBackward(selection(3));
 		assertOrdering(0, 1, 3, 2, 4);
 	}
 
 	@Test
 	public void testMoveBackwardLastInGroup() {
-		ArrayList<GeoElement> selection = new ArrayList<>();
-		selection.add(geos[1]);
-		layerManager.moveBackward(selection);
+		withDefaultGroup();
+		layerManager.moveBackward(selection(1));
 		assertOrderingUnchanged();
 	}
 
 	@Test
 	public void testMoveToFrontAndBack() {
-		ArrayList<GeoElement> selection = new ArrayList<>();
-		selection.add(geos[1]);
-		layerManager.moveToFront(selection);
-		layerManager.moveToBack(selection);
+		withDefaultGroup();
+		layerManager.moveToFront(selection(1));
+		layerManager.moveToBack(selection(1));
 		assertOrderingUnchanged();
 	}
 
 	@Test
 	public void testMoveForwardAndBack() {
-		ArrayList<GeoElement> selection = new ArrayList<>();
-		selection.add(geos[1]);
-		layerManager.moveForward(selection);
-		layerManager.moveForward(selection);
-		layerManager.moveBackward(selection);
+		withDefaultGroup();
+		layerManager.moveForward(selection(1));
+		layerManager.moveForward(selection(1));
+		layerManager.moveBackward(selection(1));
 		assertOrdering(0, 2, 1, 3, 4);
 	}
 
 	@Test
 	public void testMoveBackwardAndReset() {
-		ArrayList<GeoElement> selection = new ArrayList<>();
-		selection.add(geos[3]);
-		layerManager.moveBackward(selection);
-		layerManager.moveBackward(selection);
-		layerManager.moveForward(selection);
-		layerManager.moveForward(selection);
+		withDefaultGroup();
+		layerManager.moveBackward(selection(3));
+		layerManager.moveBackward(selection(3));
+		layerManager.moveForward(selection(3));
+		layerManager.moveForward(selection(3));
 		assertOrderingUnchanged();
 	}
 
 	@Test
 	public void testMoveForwardThroughGroup() {
-		ArrayList<GeoElement> selection = new ArrayList<>();
-		selection.add(geos[0]);
-		layerManager.moveForward(selection);
+		withDefaultGroup();
+		layerManager.moveForward(selection(0));
 		assertOrdering(1, 2, 3, 0, 4);
 	}
 
 	@Test
+	public void testMoveForwardThroughGroupAtTop() {
+		withGroup(2, 3, 4);
+		layerManager.moveForward(selection(1));
+		assertOrdering(0, 2, 3, 4, 1);
+	}
+
+	@Test
 	public void testMoveBackwardThroughGroup() {
-		ArrayList<GeoElement> selection = new ArrayList<>();
-		selection.add(geos[4]);
-		layerManager.moveBackward(selection);
+		withDefaultGroup();
+		layerManager.moveBackward(selection(4));
 		assertOrdering(0, 4, 1, 2, 3);
+	}
+
+	@Test
+	public void testMoveBackwardThroughGroupAtBeginning() {
+		withGroup(0, 1, 2);
+		layerManager.moveBackward(selection(3));
+		assertOrdering(3, 0, 1, 2, 4);
 	}
 }
