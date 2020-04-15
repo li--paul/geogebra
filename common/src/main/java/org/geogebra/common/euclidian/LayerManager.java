@@ -144,32 +144,49 @@ public class LayerManager {
 	}
 
 	public void moveBackwardSelection(List<GeoElement> selection) {
-		ArrayList<GeoElement> resultingOrder = new ArrayList<>(drawingOrder.size());
-		int i = 0;
-
-		if (!selection.contains(drawingOrder.get(0))) {
-			while (i < drawingOrder.size() && !selection.contains(drawingOrder.get(i + 1))) {
-				GeoElement geo = drawingOrder.get(i);
-				if (!geo.hasGroup()) {
-					resultingOrder.add(drawingOrder.get(i));
-				}
-				i++;
-			}
+		ArrayList<GeoElement> order = new ArrayList<>(drawingOrder.size());
+		int i = addGeosReverse(selection, order);
+		Group group = drawingOrder.get(i).getParentGroup();
+		while (i >= 0 && group != null && getGroupOf(i) == group)
+		{
+			order.add(0, drawingOrder.get(i));
+			i--;
 		}
 
-		addSelectionSorted(resultingOrder, selection);
+		insertSelectionSorted(order, selection);
 
-		while (i < drawingOrder.size()) {
+		while (i >= 0) {
 			if (!selection.contains(drawingOrder.get(i))) {
-				resultingOrder.add(drawingOrder.get(i));
+				order.add(0, drawingOrder.get(i));
 			}
-			i++;
+			i--;
 		}
-
-		drawingOrder = resultingOrder;
+		drawingOrder = order;
 		updateOrdering();
 	}
 
+	private int addGeosReverse(List<GeoElement> selection, ArrayList<GeoElement> order) {
+		int i = drawingOrder.size() - 1;
+		int skipped = 0;
+		while (i > 0 && skipped < selection.size()) {
+			GeoElement geo = drawingOrder.get(i);
+			if (selection.contains(geo)) {
+				skipped++;
+			} else {
+				order.add(geo);
+			}
+			i--;
+		}
+
+		return i;
+	}
+
+
+	private void insertSelectionSorted(List<GeoElement> to, List<GeoElement> from) {
+		List<GeoElement> copy = new ArrayList<>(from);
+		sortByOrder(copy);
+		to.addAll(0, copy);
+	}
 	/**
 	 * Move the selected geos to the top of the drawing priority list
 	 * while respecting their relative ordering
