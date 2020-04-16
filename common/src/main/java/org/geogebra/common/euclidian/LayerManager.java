@@ -184,7 +184,7 @@ public class LayerManager {
 	private int insertGeosBefore(List<GeoElement> selection, ArrayList<GeoElement> order) {
 		int i = drawingOrder.size() - 1;
 		int skipped = 0;
-		while (i > 0 && skipped < selection.size()) {
+		while (i >= 0 && skipped < selection.size()) {
 			GeoElement geo = drawingOrder.get(i);
 			if (selection.contains(geo)) {
 				skipped++;
