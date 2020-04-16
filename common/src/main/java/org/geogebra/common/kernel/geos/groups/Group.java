@@ -29,7 +29,6 @@ public class Group {
         updateLead();
     }
 
-
     public int getMinOrder() {
         return getMinByOrder().getOrdering();
     }

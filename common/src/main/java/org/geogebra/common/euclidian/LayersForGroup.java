@@ -11,6 +11,12 @@ import org.geogebra.common.kernel.geos.OrderComparator;
 public class LayersForGroup {
 	private final List<GeoElement> drawingOrder;
 	private final Comparator<GeoElement> orderComparator = new OrderComparator();
+
+	/**
+	 * Constructor
+	 *
+	 * @param drawingOrder order list of all geos.
+	 */
 	public LayersForGroup(List<GeoElement> drawingOrder) {
 		this.drawingOrder = drawingOrder;
 	}
