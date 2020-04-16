@@ -33,9 +33,15 @@ public class LayerManagerTest {
 		}
 	}
 
-	static GeoElement createDummyGeo(Construction construction, int i) {
+	/**
+	 *
+	 * @param construction the construction.
+	 * @param number the number for the label.
+	 * @return the geo labeled as number.
+	 */
+	static GeoElement createDummyGeo(Construction construction, int number) {
 		GeoElement geo = new GeoPolygon(construction);
-		geo.setLabel(i +"");
+		geo.setLabel(number + "");
 		return geo;
 	}
 

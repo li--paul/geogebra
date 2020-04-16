@@ -6,18 +6,11 @@ import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.groups.Group;
+import org.geogebra.common.kernel.geos.OrderComparator;
 
 public class LayersForGroup {
-	public static final Comparator<GeoElement> orderComparator = new Comparator<GeoElement>() {
-		@Override
-		public int compare(GeoElement geo1, GeoElement geo2) {
-			Integer ordering1 = geo1.getOrdering();
-			return ordering1.compareTo(geo2.getOrdering());
-		}
-	};
-
 	private final List<GeoElement> drawingOrder;
-
+	private final Comparator<GeoElement> orderComparator = new OrderComparator();
 	public LayersForGroup(List<GeoElement> drawingOrder) {
 		this.drawingOrder = drawingOrder;
 	}

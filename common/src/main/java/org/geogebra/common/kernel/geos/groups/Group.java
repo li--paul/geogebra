@@ -2,9 +2,9 @@ package org.geogebra.common.kernel.geos.groups;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.OrderComparator;
 
 /**
  *  model for group of selected geos
@@ -14,15 +14,6 @@ public class Group {
     private ArrayList<GeoElement> geosGroup = new ArrayList<>();
     private boolean isFixed;
     private OrderComparator orderComparator = new OrderComparator();
-
-    static class OrderComparator implements Comparator<GeoElement> {
-
-        @Override
-        public int compare(GeoElement o1, GeoElement o2) {
-            Integer order1 = o1.getOrdering();
-            return order1.compareTo(o2.getOrdering());
-        }
-    }
 
     /**
      * Constructor for group
