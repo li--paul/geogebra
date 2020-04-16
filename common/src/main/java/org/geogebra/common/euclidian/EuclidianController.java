@@ -6307,11 +6307,15 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		inlineText.setLabel(null);
 		selectAndShowBoundingBox(inlineText);
-		DrawableND drawable = view.getDrawableFor(inlineText);
+		final DrawableND drawable = view.getDrawableFor(inlineText);
 		drawable.update();
-		if (drawable instanceof DrawInline) {
-			((DrawInline) drawable).toForeground(0, 0);
-		}
+
+		app.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				((DrawInline) drawable).toForeground(0, 0);
+			}
+		});
 	}
 
 	protected void hitCheckBox(GeoBoolean bool) {

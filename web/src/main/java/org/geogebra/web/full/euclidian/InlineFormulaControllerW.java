@@ -74,7 +74,6 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 			mathFieldEditor.setText(formula.getContent());
 		}
 		widget.setVisible(true);
-		mathFieldEditor.setKeyboardVisibility(true);
 		mathFieldEditor.requestFocus();
 		mathFieldEditor.getMathField().getInternal().onPointerUp(x, y);
 	}
