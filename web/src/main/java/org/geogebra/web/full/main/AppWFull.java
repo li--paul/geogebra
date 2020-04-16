@@ -2213,7 +2213,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public InlineFormulaController createInlineFormulaController(EuclidianView view,
 			GeoFormula geo) {
-		return new InlineFormulaControllerW(geo, this,
-				((EuclidianViewW) view).getAbsolutePanel());
+		EuclidianDockPanelW panel = (EuclidianDockPanelW) getGuiManager().getLayout()
+				.getDockManager().getPanel(VIEW_EUCLIDIAN);
+		return new InlineFormulaControllerW(geo, this, panel.getEuclidianPanel());
 	}
 }

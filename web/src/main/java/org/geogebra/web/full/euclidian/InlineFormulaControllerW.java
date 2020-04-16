@@ -3,6 +3,7 @@ package org.geogebra.web.full.euclidian;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathSequence;
 import org.geogebra.common.awt.GColor;
@@ -27,7 +28,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 	 * @param app the application
 	 * @param parent parent panel (generally, the euclidian view)
 	 */
-	public InlineFormulaControllerW(GeoFormula formula, AppW app, AbsolutePanel parent) {
+	public InlineFormulaControllerW(GeoFormula formula, AppW app, Panel parent) {
 		this.formula = formula;
 		this.mathFieldEditor = new MathFieldEditor(app, new FormulaMathFieldListener());
 
