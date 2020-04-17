@@ -8,10 +8,12 @@ import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathSequence;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.draw.DrawFormula;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.inline.InlineFormulaController;
 import org.geogebra.common.kernel.geos.GeoFormula;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.full.gui.components.MathFieldEditor;
+import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.main.AppW;
 
 public class InlineFormulaControllerW implements InlineFormulaController {
@@ -33,6 +35,12 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		this.mathFieldEditor = new MathFieldEditor(app, new FormulaMathFieldListener());
 
 		this.widget = new AbsolutePanel();
+		ClickEndHandler.init(widget, new ClickEndHandler(true, true) {
+			@Override
+			public void onClickEnd(int x, int y, PointerEventType type) {
+				mathFieldEditor.focus();
+			}
+		});
 		widget.setVisible(false);
 		widget.addStyleName("mowWidget");
 		parent.add(widget);
@@ -45,6 +53,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 		mathFieldEditor.attach(widget);
 		mathFieldEditor.getMathField().setFixMargin(DrawFormula.PADDING);
 		mathFieldEditor.setUseKeyboardButton(false);
+		mathFieldEditor.getMathField().setBackgroundCssColor("");
 	}
 
 	@Override
@@ -134,7 +143,7 @@ public class InlineFormulaControllerW implements InlineFormulaController {
 				@Override
 				public void execute() {
 					int width = mathFieldEditor.getMathField().asWidget().getOffsetWidth()
-							+ 2 * DrawFormula.PADDING;
+							- DrawFormula.PADDING;
 					int height = mathFieldEditor.getMathField().asWidget().getOffsetHeight();
 
 					if (formula.getWidth() < width) {
