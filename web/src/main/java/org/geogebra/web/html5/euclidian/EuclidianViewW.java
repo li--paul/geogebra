@@ -358,7 +358,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void clearView() {
-		resetInlineTexts();
+		resetInlineObjects();
 		resetLists();
 		updateBackgroundImage(); // clear traces and images
 		// resetMode();

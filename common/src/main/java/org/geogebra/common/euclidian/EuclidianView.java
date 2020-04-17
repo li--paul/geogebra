@@ -6604,7 +6604,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * Remove all widgets for inline texts
 	 */
-	public void resetInlineTexts() {
+	public void resetInlineObjects() {
 		for (Drawable dr : allDrawableList) {
 			if (dr instanceof DrawInline) {
 				((DrawInline) dr).remove();

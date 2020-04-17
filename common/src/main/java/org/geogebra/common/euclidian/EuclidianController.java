@@ -350,9 +350,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 */
 	protected double[] originalPointY;
 	/**
-	 * preview rectangle shape for text tool
+	 * preview rectangle shape for inline tools (text, formula)
 	 */
-	private GRectangle textRectangleShape;
+	private GRectangle inlinePreviewRectangle;
 
 	protected Object detachFrom;
 	protected boolean freehandModePrepared = false;
@@ -5235,7 +5235,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_MEDIA_TEXT:
-			inlineText(selectionPreview, new GeoInlineFactory() {
+			createInlineObject(selectionPreview, new GeoInlineFactory() {
 				@Override
 				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
 					return new GeoInlineText(cons, location);
@@ -5248,7 +5248,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			break;
 
 		case EuclidianConstants.MODE_EQUATION:
-			inlineText(selectionPreview, new GeoInlineFactory() {
+			createInlineObject(selectionPreview, new GeoInlineFactory() {
 				@Override
 				public GeoInline newInlineObject(Construction cons, GPoint2D location) {
 					return new GeoFormula(cons, location);
@@ -6277,37 +6277,37 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		return changedKernel;
 	}
 
-	private void inlineText(boolean selPreview, GeoInlineFactory factory) {
+	private void createInlineObject(boolean selPreview, GeoInlineFactory factory) {
 		if (selPreview) {
 			return;
 		}
 
-		GeoInline inlineText;
+		GeoInline inlineObject;
 
-		if (textRectangleShape != null) {
-			GPoint2D initPoint = new GPoint2D(view.toRealWorldCoordX(textRectangleShape.getX()),
-							view.toRealWorldCoordY(textRectangleShape.getY()));
-			inlineText = factory.newInlineObject(kernel.getConstruction(), initPoint);
+		if (inlinePreviewRectangle != null) {
+			GPoint2D initPoint = new GPoint2D(view.toRealWorldCoordX(inlinePreviewRectangle.getX()),
+							view.toRealWorldCoordY(inlinePreviewRectangle.getY()));
+			inlineObject = factory.newInlineObject(kernel.getConstruction(), initPoint);
 
-			int width = (int) Math.max(inlineText.getMinWidth(),
-					textRectangleShape.getWidth());
-			int height = (int) Math.max(inlineText.getMinHeight(),
-					textRectangleShape.getHeight());
+			int width = (int) Math.max(inlineObject.getMinWidth(),
+					inlinePreviewRectangle.getWidth());
+			int height = (int) Math.max(inlineObject.getMinHeight(),
+					inlinePreviewRectangle.getHeight());
 
-			inlineText.setWidth(width);
-			inlineText.setHeight(height);
+			inlineObject.setWidth(width);
+			inlineObject.setHeight(height);
 
-			textRectangleShape = null;
+			inlinePreviewRectangle = null;
 			view.setShapeRectangle(null);
 			view.repaintView();
 		} else {
 			GPoint2D initPoint = new GPoint2D(xRW, yRW);
-			inlineText = factory.newInlineObject(kernel.getConstruction(), initPoint);
+			inlineObject = factory.newInlineObject(kernel.getConstruction(), initPoint);
 		}
 
-		inlineText.setLabel(null);
-		selectAndShowBoundingBox(inlineText);
-		final DrawableND drawable = view.getDrawableFor(inlineText);
+		inlineObject.setLabel(null);
+		selectAndShowBoundingBox(inlineObject);
+		final DrawableND drawable = view.getDrawableFor(inlineObject);
 		drawable.update();
 
 		app.invokeLater(new Runnable() {
@@ -8337,8 +8337,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		if (mode == EuclidianConstants.MODE_MEDIA_TEXT
 				|| mode == EuclidianConstants.MODE_EQUATION) {
 			view.setBoundingBox(null);
-			updateTextRectangle(event);
-			view.setShapeRectangle(textRectangleShape);
+			updateInlineRectangle(event);
+			view.setShapeRectangle(inlinePreviewRectangle);
 			view.repaintView();
 		}
 
@@ -8365,9 +8365,9 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	private void updateTextRectangle(AbstractEvent event) {
-		if (textRectangleShape == null) {
-			textRectangleShape = AwtFactory.getPrototype().newRectangle();
+	private void updateInlineRectangle(AbstractEvent event) {
+		if (inlinePreviewRectangle == null) {
+			inlinePreviewRectangle = AwtFactory.getPrototype().newRectangle();
 		}
 
 		int left = Math.min(event.getX(), startPosition.getX());
@@ -8375,7 +8375,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		int width = Math.abs(event.getX() - startPosition.getX());
 		int height = Math.abs(event.getY() - startPosition.getY());
 
-		textRectangleShape.setBounds(left, top, width, height);
+		inlinePreviewRectangle.setBounds(left, top, width, height);
 	}
 
 	/**
