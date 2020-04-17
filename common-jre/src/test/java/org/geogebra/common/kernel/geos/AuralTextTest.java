@@ -140,6 +140,15 @@ public class AuralTextTest {
 		assertEquals("Input Box plainText", box.getAuralText().trim());
 	}
 
+	@Test
+	public void inputBoxShouldNotReadHiddenLabel() {
+		GeoInputBox box = (GeoInputBox) add("myBox=InputBox()")[0];
+		box.setLabelVisible(false);
+		assertEquals("Input Box", box.getAuralText().trim());
+		box.setCaption("$\\frac{1}{2}$");
+		assertEquals("Input Box (1)/(2)", box.getAuralText().trim());
+	}
+
 	private static void auralWhichContainsTheOutput(String in, String... out) {
 		GeoElementND[] geos = add(in);
 		String aural = geos[0].getAuralText(new ScreenReaderBuilderDot());
